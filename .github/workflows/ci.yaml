@@ -21,5 +21,4 @@ jobs:
         shell: bash
         env:
           BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
-          TERM: xterm
         run: bats enc.bats
