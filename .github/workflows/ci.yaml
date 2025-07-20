@@ -1,0 +1,57 @@
+---
+name: CI
+on:
+  - pull_request
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Check style
+        uses: docker://mvdan/shfmt:v3.12.0-alpine
+        with:
+          args: -i 2 -bn -ci -sr
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Bats and bats libs
+        id: setup-bats
+        uses: bats-core/bats-action@3.0.0
+
+      - name: Test
+        shell: bash
+        env:
+          BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
+        run: bats enc.bats
