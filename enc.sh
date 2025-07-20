@@ -17,6 +17,7 @@ beghilosz() {
   echo -n "${text}" \
     | tr '[:lower:]' '[:upper:]' \
     | tr 'BEGHILOSZ' '836417052' \
+    | tr 'ACDEFJKMPQRTUVWY' '∀ƆDƎℲſ⋊WԀΌᴚ┴∩ΛM⅄' \
     | rev \
     | tac
 }

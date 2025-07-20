@@ -23,7 +23,7 @@ load bats-extra
 
 @test 'Letters outside mapped range' {
   run ./enc.sh 'hellow world!'
-  assert_output '!D7R0W W07734'
+  assert_output '!D7ᴚ0M M07734'
 }
 
 @test 'Non-ASCII letters' {
@@ -34,6 +34,19 @@ load bats-extra
 @test "multiline" {
   run ./enc.sh 'calculator
 spelling'
-  assert_output '6N1773P5
-R0TA7UC7AC'
+  assert_output '6N1773Ԁ5
+ᴚ0┴∀7∩Ɔ7∀Ɔ'
+}
+
+@test "English alphabet split into several lines" {
+  run ./enc.sh 'abcde
+fghijk
+lmnopq
+rstuvw
+xyz'
+  assert_output '2⅄X
+MΛ∩┴5ᴚ
+ΌԀ0NW7
+⋊ſ146Ⅎ
+3DƆ8∀'
 }
