@@ -8,8 +8,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Check style
+        uses: docker://mvdan/shfmt@v3.12.0-alpine
+        with:
+          args: -i 2 -bn -ci -sr
+
   lint:
-    name: Test
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 1
     permissions:
